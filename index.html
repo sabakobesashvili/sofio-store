@@ -1,250 +1,260 @@
 <!DOCTYPE html>
 <html lang="ka">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ონლაინ მაღაზია — FloraLine</title>
-  <style>
-    :root{
-      --primary:#6d28d9;
-      --accent:#10b981;
-      --bg:#f8fafc;
-      --text:#0f172a;
-      --card:#ffffff;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.5;background:var(--bg);color:var(--text)}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:16px}
-    header{position:sticky;top:0;background:var(--card);border-bottom:1px solid #e5e7eb;z-index:20}
-    .nav{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;font-weight:700}
-    .search-area{display:flex;gap:8px;flex-wrap:wrap}
-    input[type="search"],select{padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;min-width:180px}
-    .btn{padding:10px 14px;border-radius:10px;border:1px solid transparent;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px}
-    .btn.primary{background:var(--primary);color:#fff}
-    .btn.ghost{background:#fff;border-color:#e5e7eb}
-    .cart-button{position:relative}
-    .badge{position:absolute;top:-6px;right:-6px;background:crimson;color:#fff;border-radius:999px;padding:2px 7px;font-size:12px;min-width:20px;text-align:center}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .products{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-    .card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-    .thumb{aspect-ratio:4/3;display:grid;place-items:center;background:linear-gradient(135deg,#e9d5ff,#d1fae5)}
-    .thumb span{font-size:44px}
-    .card-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-    .price{font-weight:800}
-    .drawer{position:fixed;inset:0;display:none}
-    .drawer.open{display:block}
-    .backdrop{position:absolute;inset:0;background:rgba(15,23,42,0.4)}
-    .panel{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:#fff;display:flex;flex-direction:column;border-left:1px solid #e5e7eb}
-    .panel header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e5e7eb}
-    .panel .content{padding:12px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:10px}
-    .line{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:8px}
-    .qty{display:flex;align-items:center;gap:6px}
-    .qty button{width:28px;height:28px;border-radius:8px;border:1px solid #e5e7eb;background:#fff}
-    .panel footer{padding:12px;border-top:1px solid #e5e7eb;display:grid;gap:8px}
-    .muted{color:#6b7280;font-size:14px}
-    .hero{background:linear-gradient(120deg,#ede9fe, #d1fae5);border-radius:20px;padding:24px;display:grid;gap:10px;margin:16px 0}
-    .hero h1{margin:0}
-    .hero p{margin:0}
-    .checkout{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;display:grid;gap:10px;margin-top:16px}
-    .checkout input, .checkout textarea{width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px}
-    .small{font-size:12px;color:#6b7280}
-    footer.site{margin-top:24px;border-top:1px solid #e5e7eb;padding:18px 0;color:#6b7280}
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://js.stripe.com/v3/"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ონლაინ მაღაზია — FloraLine</title>
+<style>
+:root{
+  --primary:#6d28d9;
+  --accent:#10b981;
+  --bg:#f8fafc;
+  --text:#0f172a;
+  --card:#ffffff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.5;background:var(--bg);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+header{position:sticky;top:0;background:var(--card);border-bottom:1px solid #e5e7eb;z-index:20}
+.nav{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;font-weight:700}
+.search-area{display:flex;gap:8px;flex-wrap:wrap}
+input[type="search"],select{padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;min-width:180px}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid transparent;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.btn.primary{background:var(--primary);color:#fff}
+.btn.ghost{background:#fff;border-color:#e5e7eb}
+.cart-button{position:relative}
+.badge{position:absolute;top:-6px;right:-6px;background:crimson;color:#fff;border-radius:999px;padding:2px 7px;font-size:12px;min-width:20px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.products{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.thumb{aspect-ratio:4/3;display:grid;place-items:center;background:linear-gradient(135deg,#e9d5ff,#d1fae5)}
+.thumb span{font-size:44px}
+.card-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.price{font-weight:800}
+.drawer{position:fixed;inset:0;display:none}
+.drawer.open{display:block}
+.backdrop{position:absolute;inset:0;background:rgba(15,23,42,0.4)}
+.panel{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:#fff;display:flex;flex-direction:column;border-left:1px solid #e5e7eb}
+.panel header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e5e7eb}
+.panel .content{padding:12px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:10px}
+.line{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:8px}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid #e5e7eb;background:#fff}
+.panel footer{padding:12px;border-top:1px solid #e5e7eb;display:grid;gap:8px}
+.muted{color:#6b7280;font-size:14px}
+.hero{background:linear-gradient(120deg,#ede9fe, #d1fae5);border-radius:20px;padding:24px;display:grid;gap:10px;margin:16px 0}
+.hero h1{margin:0}
+.hero p{margin:0}
+.checkout{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;display:grid;gap:10px;margin-top:16px}
+.checkout input, .checkout textarea{width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px}
+.small{font-size:12px;color:#6b7280}
+footer.site{margin-top:24px;border-top:1px solid #e5e7eb;padding:18px 0;color:#6b7280}
+.category-buttons{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+.category-buttons .btn{flex:1}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <div style="font-weight:800">FloraLine/ფლორალაინი</div>
-          <div class="small">ონლაინ მაღაზია</div>
-        </div>
-      </div>
-      <div class="search-area">
-        <input id="q" type="search" placeholder="ძებნა… (მაგ: ვარდი)" />
-        <select id="cat">
-          <option value="all">ყველა კატეგორია</option>
-          <option value="flowers">ყვავილები</option>
-          <option value="succulents">სუკულენტები</option>
-          <option value="jewelry">სამკაულები</option>
-          <option value="home">ჭურჭელი/დეკორი</option>
-        </select>
-        <button class="btn ghost" id="clearFilters">გასუფთავება</button>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn primary cart-button" id="openCart">კალათა <span class="badge" id="cartCount">0</span></button>
-        <a href="https://www.facebook.com/profile.php?id=100064439182441" target="_blank" class="btn ghost">
-          <i class="fa-brands fa-facebook"></i> Facebook
-        </a>
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <div style="font-weight:800">FloraLine/ფლორალაინი</div>
+        <div class="small">ონლაინ მაღაზია</div>
       </div>
     </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <h1>შეიძინე სილამაზეები სახლიდან გაუსვლელად</h1>
-      <p>თბილისის მაშტაბით მიწოდება 6 ლარი, რეგიონები — 10 ლარი</p>
-    </section>
-
-    <section class="grid">
-      <div class="products" id="products"></div>
-    </section>
-
-    <!-- Checkout სექცია შენ დაამატე აქ -->
-    <section id="checkout" class="checkout">
-      <h2>შეკვეთის გაფორმება</h2>
-      <p class="small">შეავსე ველები და დააჭირე „Facebook-ზე გაგზავნა“ ან „გადახდა ბარათით“.</p>
-      <div class="grid" style="grid-template-columns:repeat(12,1fr);gap:12px">
-        <div style="grid-column:span 6">
-          <label>სახელი და გვარი
-            <input id="f_name" placeholder="სოფო გუდაძე" />
-          </label>
-        </div>
-        <div style="grid-column:span 6">
-          <label>ტელეფონი
-            <input id="f_phone" placeholder="5XX XX XX XX" />
-          </label>
-        </div>
-        <div style="grid-column:span 12">
-          <label>მისამართი
-            <input id="f_addr" placeholder="ქ. თბილისი, ქუჩა #, ბინა #" />
-          </label>
-        </div>
-        <div style="grid-column:span 12">
-          <label>შენიშვნა
-            <textarea id="f_note" rows="3" placeholder="დამატებითი კომენტარი"></textarea>
-          </label>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <a href="https://www.facebook.com/profile.php?id=100064439182441" target="_blank" class="btn primary">
-          <i class="fa-brands fa-facebook"></i> Facebook-ზე გაგზავნა
-        </a>
-        <button class="btn primary" id="payCard"><i class="fa-solid fa-credit-card"></i> გადახდა ბარათით</button>
-      </div>
-    </section>
-
-    <footer class="site">
-      <div class="container">© <span id="y"></span> Floraline/ფლორალაინი</div>
-    </footer>
-  </main>
-
-  <!-- Cart Drawer -->
-  <div class="drawer" id="drawer">
-    <div class="backdrop" id="closeCart"></div>
-    <div class="panel">
-      <header class="nav" style="padding:10px 12px">
-        <strong>თქვენი კალათა</strong>
-        <button class="btn ghost" id="closeCartBtn">დახურვა</button>
-      </header>
-      <div class="content" id="cartLines"></div>
-      <footer>
-        <div class="line">
-          <div>ჯამი</div>
-          <div id="total" class="price">0 ₾</div>
-        </div>
-        <button class="btn primary" id="goCheckout">გაფორმება</button>
-        <div class="muted">შენახულია თქვენს მოწყობილობაში (localStorage).</div>
-      </footer>
+    <div class="search-area">
+      <input id="q" type="search" placeholder="ძებნა… (მაგ: ვარდი)" />
+      <select id="cat">
+        <option value="all">ყველა კატეგორია</option>
+        <option value="flowers">ყვავილები</option>
+        <option value="succulents">სუკულენტები</option>
+        <option value="jewelry">სამკაულები</option>
+        <option value="home">ჭურჭელი/დეკორი</option>
+      </select>
+      <button class="btn ghost" id="clearFilters">გასუფთავება</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn primary cart-button" id="openCart">კალათა <span class="badge" id="cartCount">0</span></button>
+      <a href="https://www.facebook.com/profile.php?id=100064439182441" target="_blank" class="btn ghost">
+        <i class="fa-brands fa-facebook"></i> Facebook
+      </a>
     </div>
   </div>
+</header>
 
-  <script>
-    const CATALOG = [
-      {id:1,name:"ვარდების თაიგული",price:40,cat:"flowers",emoji:"🌹"},
-      {id:2,name:"სუკულენტების კომპოზიცია",price:35,cat:"succulents",emoji:"🪴"},
-      {id:3,name:"კერამიკული ჭიქა — ყვავილები",price:22,cat:"home",emoji:"🍶"},
-      {id:4,name:"უმინი ფერდინანდი (სუკულენტი)",price:18,cat:"succulents",emoji:"🪴"},
-      {id:5,name:"ყვავილებიანი საყურეები",price:45,cat:"jewelry",emoji:"💎"},
-      {id:6,name:"ლავანდის კომპოზიცია",price:28,cat:"flowers",emoji:"💐"},
-      {id:7,name:"ვაზა – პასტელი",price:30,cat:"home",emoji:"🏺"},
-      {id:8,name:"ბროში – პატარა ყვავილი",price:19,cat:"jewelry",emoji:"🌼"}
-    ];
-    const state={products:[...CATALOG],cart:JSON.parse(localStorage.getItem('sofio_cart')||'{}'),query:'',category:'all'};
-    const $=(s)=>document.querySelector(s);
-    const fmt=(n)=>new Intl.NumberFormat('ka-GE',{maximumFractionDigits:0}).format(n)+" ₾";
-    function saveCart(){localStorage.setItem('sofio_cart',JSON.stringify(state.cart));}
-    function renderProducts(){
-      const wrap=$('#products');
-      const q=state.query.trim().toLowerCase();
-      const cat=state.category;
-      const list=state.products.filter(p=>(cat==='all'||p.cat===cat)&&(!q||p.name.toLowerCase().includes(q)));
-      wrap.innerHTML=list.map(p=>`
-        <article class="card">
-          <div class="thumb"><span>${p.emoji}</span></div>
-          <div class="card-body">
-            <div style="font-weight:700">${p.name}</div>
-            <div class="price">${fmt(p.price)}</div>
-            <button class="btn primary" data-add="${p.id}">დამატება</button>
-          </div>
-        </article>`).join('');
-      wrap.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>addToCart(+b.dataset.add)));
+<main class="container">
+<section class="hero">
+  <h1>შეიძინე სილამაზეები სახლიდან გაუსვლელად</h1>
+  <p>თბილისის მაშტაბით მიწოდება 6 ლარი, რეგიონები — 10 ლარი</p>
+</section>
+
+<!-- კატეგორიების ღილაკები -->
+<div class="category-buttons container">
+  <button class="btn ghost" data-cat="all">ყველა</button>
+  <button class="btn ghost" data-cat="flowers">ყვავილები</button>
+  <button class="btn ghost" data-cat="succulents">სუკულენტები</button>
+  <button class="btn ghost" data-cat="jewelry">სამკაულები</button>
+  <button class="btn ghost" data-cat="home">ჭურჭელი/დეკორი</button>
+</div>
+
+<section class="grid">
+  <div class="products" id="products"></div>
+</section>
+
+<section id="checkout" class="checkout">
+  <h2>შეკვეთის გაფორმება</h2>
+  <p class="small">შეავსე ველები და დააჭირე „Facebook-ზე გაგზავნა“ ან „გადახდა ბარათით“.</p>
+  <div class="grid" style="grid-template-columns:repeat(12,1fr);gap:12px">
+    <div style="grid-column:span 6">
+      <label>სახელი და გვარი <input id="f_name" placeholder="სოფო გუდაძე" /> </label>
+    </div>
+    <div style="grid-column:span 6">
+      <label>ტელეფონი <input id="f_phone" placeholder="5XX XX XX XX" /> </label>
+    </div>
+    <div style="grid-column:span 12">
+      <label>მისამართი <input id="f_addr" placeholder="ქ. თბილისი, ქუჩა #, ბინა #" /> </label>
+    </div>
+    <div style="grid-column:span 12">
+      <label>შენიშვნა <textarea id="f_note" rows="3" placeholder="დამატებითი კომენტარი"></textarea> </label>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a href="https://www.facebook.com/profile.php?id=100064439182441" target="_blank" class="btn primary">
+      <i class="fa-brands fa-facebook"></i> Facebook-ზე გაგზავნა
+    </a>
+    <button class="btn primary" id="payCard"><i class="fa-solid fa-credit-card"></i> გადახდა ბარათით</button>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container">© <span id="y"></span> Floraline/ფლორალაინი</div>
+</footer>
+</main>
+
+<div class="drawer" id="drawer">
+  <div class="backdrop" id="closeCart"></div>
+  <div class="panel">
+    <header class="nav" style="padding:10px 12px">
+      <strong>თქვენი კალათა</strong>
+      <button class="btn ghost" id="closeCartBtn">დახურვა</button>
+    </header>
+    <div class="content" id="cartLines"></div>
+    <footer>
+      <div class="line">
+        <div>ჯამი</div>
+        <div id="total" class="price">0 ₾</div>
+      </div>
+      <button class="btn primary" id="goCheckout">გაფორმება</button>
+      <div class="muted">შენახულია თქვენს მოწყობილობაში (localStorage).</div>
+    </footer>
+  </div>
+</div>
+
+<script>
+const CATALOG = [
+  {id:1,name:"ვარდების თაიგული",price:40,cat:"flowers",emoji:"🌹"},
+  {id:2,name:"სუკულენტების კომპოზიცია",price:35,cat:"succulents",emoji:"🪴"},
+  {id:3,name:"კერამიკული ჭიქა — ყვავილები",price:22,cat:"home",emoji:"🍶"},
+  {id:4,name:"უმინი ფერდინანდი (სუკულენტი)",price:18,cat:"succulents",emoji:"🪴"},
+  {id:5,name:"ყვავილებიანი საყურეები",price:45,cat:"jewelry",emoji:"💎"},
+  {id:6,name:"ლავანდის კომპოზიცია",price:28,cat:"flowers",emoji:"💐"},
+  {id:7,name:"ვაზა – პასტელი",price:30,cat:"home",emoji:"🏺"},
+  {id:8,name:"ბროში – პატარა ყვავილი",price:19,cat:"jewelry",emoji:"🌼"}
+];
+const state={products:[...CATALOG],cart:JSON.parse(localStorage.getItem('sofio_cart')||'{}'),query:'',category:'all'};
+const $=(s)=>document.querySelector(s);
+const fmt=(n)=>new Intl.NumberFormat('ka-GE',{maximumFractionDigits:0}).format(n)+" ₾";
+
+function saveCart(){localStorage.setItem('sofio_cart',JSON.stringify(state.cart));}
+function renderProducts(){
+  const wrap=$('#products');
+  const q=state.query.trim().toLowerCase();
+  const cat=state.category;
+  const list=state.products.filter(p=>(cat==='all'||p.cat===cat)&&(!q||p.name.toLowerCase().includes(q)));
+  wrap.innerHTML=list.map(p=>`
+    <article class="card">
+      <div class="thumb"><span>${p.emoji}</span></div>
+      <div class="card-body">
+        <div style="font-weight:700">${p.name}</div>
+        <div class="price">${fmt(p.price)}</div>
+        <button class="btn primary" data-add="${p.id}">დამატება</button>
+      </div>
+    </article>`).join('');
+  wrap.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>addToCart(+b.dataset.add)));
+}
+function addToCart(id){state.cart[id]=(state.cart[id]||0)+1;saveCart();renderCart();}
+function removeFromCart(id){delete state.cart[id];saveCart();renderCart();}
+function setQty(id,qty){if(qty<=0){removeFromCart(id);return}state.cart[id]=qty;saveCart();renderCart();}
+function cartLines(){const lines=[];let total=0;for(const [id,qty] of Object.entries(state.cart)){const p=CATALOG.find(x=>x.id==id);if(!p) continue;const sum=p.price*qty;total+=sum;lines.push({id:+id,name:p.name,price:p.price,qty,sum});}return {lines,total};}
+function renderCart(){
+  const {lines,total}=cartLines();
+  $('#cartCount').textContent=Object.values(state.cart).reduce((a,b)=>a+b,0);
+  $('#total').textContent=fmt(total);
+  const box=$('#cartLines');
+  if(!lines.length){box.innerHTML='<div class="muted">კალათა ცარიელია</div>';return;}
+  box.innerHTML=lines.map(l=>`
+    <div class="line">
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="width:36px;height:36px;border-radius:10px;background:#f1f5f9;display:grid;place-items:center">${CATALOG.find(x=>x.id===l.id).emoji}</div>
+        <div>
+          <div style="font-weight:700">${l.name}</div>
+          <div class="small">${fmt(l.price)} / ერთეული</div>
+        </div>
+      </div>
+      <div class="qty">
+        <button data-dec="${l.id}">−</button>
+        <span>${l.qty}</span>
+        <button data-inc="${l.id}">+</button>
+        <strong style="margin-left:8px">${fmt(l.sum)}</strong>
+        <button class="btn ghost" data-del="${l.id}">წაშლა</button>
+      </div>
+    </div>`).join('');
+  box.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>setQty(+b.dataset.inc,(state.cart[b.dataset.inc]||1)+1)));
+  box.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>setQty(+b.dataset.dec,(state.cart[b.dataset.dec]||1)-1)));
+  box.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>removeFromCart(+b.dataset.del)));
+}
+
+function openCart(open=true){$('#drawer').classList.toggle('open',open);}
+function goCheckout(){openCart(false);document.getElementById('checkout').scrollIntoView({behavior:'smooth'});}
+
+const stripe = Stripe("შენი_Publishable_Key"); // ჩასვი შენი Stripe Publishable Key
+
+document.addEventListener('DOMContentLoaded',()=>{
+  $('#y').textContent=new Date().getFullYear();
+  renderProducts();renderCart();
+
+  $('#q').addEventListener('input',e=>{state.query=e.target.value;renderProducts()});
+  $('#cat').addEventListener('change',e=>{state.category=e.target.value;renderProducts()});
+  $('#clearFilters').addEventListener('click',()=>{state.query='';state.category='all';$('#q').value='';$('#cat').value='all';renderProducts()});
+  $('#openCart').addEventListener('click',()=>openCart(true));
+  $('#closeCart').addEventListener('click',()=>openCart(false));
+  $('#closeCartBtn').addEventListener('click',()=>openCart(false));
+  $('#goCheckout').addEventListener('click',goCheckout);
+
+  // კატეგორიების ღილაკების JS
+  document.querySelectorAll('.category-buttons [data-cat]').forEach(btn=>{
+    btn.addEventListener('click',()=>{state.category=btn.dataset.cat;renderProducts();});
+  });
+
+  $('#payCard').addEventListener('click',()=>{
+    const items=[];
+    for(const [id,qty] of Object.entries(state.cart)){
+      items.push({price:"price_XXXX", quantity:qty}); // ჩასვი შენი Stripe Price ID
     }
-    function addToCart(id){state.cart[id]=(state.cart[id]||0)+1;saveCart();renderCart();}
-    function removeFromCart(id){delete state.cart[id];saveCart();renderCart();}
-    function setQty(id,qty){if(qty<=0){removeFromCart(id);return}state.cart[id]=qty;saveCart();renderCart();}
-    function cartLines(){const lines=[];let total=0;for(const [id,qty] of Object.entries(state.cart)){const p=CATALOG.find(x=>x.id==id);if(!p) continue;const sum=p.price*qty;total+=sum;lines.push({id:+id,name:p.name,price:p.price,qty,sum});}return {lines,total};}
-    function renderCart(){
-      const {lines,total}=cartLines();
-      $('#cartCount').textContent=Object.values(state.cart).reduce((a,b)=>a+b,0);
-      $('#total').textContent=fmt(total);
-      const box=$('#cartLines');
-      if(!lines.length){box.innerHTML='<div class="muted">კალათა ცარიელია</div>';return;}
-      box.innerHTML=lines.map(l=>`
-        <div class="line">
-          <div style="display:flex;gap:8px;align-items:center">
-            <div style="width:36px;height:36px;border-radius:10px;background:#f1f5f9;display:grid;place-items:center">${CATALOG.find(x=>x.id===l.id).emoji}</div>
-            <div>
-              <div style="font-weight:700">${l.name}</div>
-              <div class="small">${fmt(l.price)} / ერთეული</div>
-            </div>
-          </div>
-          <div class="qty">
-            <button data-dec="${l.id}">−</button>
-            <span>${l.qty}</span>
-            <button data-inc="${l.id}">+</button>
-            <strong style="margin-left:8px">${fmt(l.sum)}</strong>
-            <button class="btn ghost" data-del="${l.id}">წაშლა</button>
-          </div>
-        </div>`).join('');
-      box.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>setQty(+b.dataset.inc,(state.cart[b.dataset.inc]||1)+1)));
-      box.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>setQty(+b.dataset.dec,(state.cart[b.dataset.dec]||1)-1)));
-      box.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>removeFromCart(+b.dataset.del)));
-    }
-    function openCart(open=true){$('#drawer').classList.toggle('open',open);}
-    function goCheckout(){openCart(false);document.getElementById('checkout').scrollIntoView({behavior:'smooth'});}
-
-    // Stripe გადახდა
-    const stripe = Stripe("შენი_Publishable_Key"); // ჩასვი შენი Stripe Publishable Key
-    document.addEventListener('DOMContentLoaded',()=>{
-      $('#y').textContent=new Date().getFullYear();
-      renderProducts();renderCart();
-      $('#q').addEventListener('input',e=>{state.query=e.target.value;renderProducts()});
-      $('#cat').addEventListener('change',e=>{state.category=e.target.value;renderProducts()});
-      $('#clearFilters').addEventListener('click',()=>{state.query='';state.category='all';$('#q').value='';$('#cat').value='all';renderProducts()});
-      $('#openCart').addEventListener('click',()=>openCart(true));
-      $('#closeCart').addEventListener('click',()=>openCart(false));
-      $('#closeCartBtn').addEventListener('click',()=>openCart(false));
-      $('#goCheckout').addEventListener('click',goCheckout);
-
-      $('#payCard').addEventListener('click',()=>{
-        stripe.redirectToCheckout({
-          lineItems: [{
-            price: "price_XXXX", // ჩასვი შენი Stripe Price ID
-            quantity: 1,
-          }],
-          mode: "payment",
-          successUrl: window.location.origin + "/success.html",
-          cancelUrl: window.location.origin + "/cancel.html",
-        });
-      });
+    stripe.redirectToCheckout({
+      lineItems: items,
+      mode: "payment",
+      successUrl: window.location.origin + "/success.html",
+      cancelUrl: window.location.origin + "/cancel.html",
     });
-  </script>
+  });
+});
+</script>
 </body>
 </html>
