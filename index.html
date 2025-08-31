@@ -16,7 +16,7 @@
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.5;background:var(--bg);color:var(--text)}
-    a{color:inherit}
+    a{color:inherit;text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:16px}
     header{position:sticky;top:0;background:var(--card);border-bottom:1px solid #e5e7eb;z-index:20}
     .nav{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0}
@@ -88,8 +88,9 @@
         </select>
         <button class="btn ghost" id="clearFilters">გასუფთავება</button>
       </div>
-      <div>
+      <div style="display:flex;gap:8px">
         <button class="btn primary cart-button" id="openCart">კალათა <span class="badge" id="cartCount">0</span></button>
+        <a href="https://www.facebook.com/profile.php?id=100064439182441" target="_blank" class="btn ghost">Facebook</a>
       </div>
     </div>
   </header>
@@ -132,7 +133,6 @@
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn primary" id="sendWA">გაგზავნა WhatsApp-ში</button>
         <button class="btn ghost" id="sendEmail">გაგზავნა Email-ით</button>
-        
       </div>
       <div class="small">ტელ/მეილის მისამართი შეცვალე კოდში ↓ კომენტარების მიხედვით.</div>
     </section>
@@ -163,7 +163,6 @@
   </div>
 
   <script>
-    // ======= Demo catalog (შეცვალე შენი პროდუქტებით) =======
     const CATALOG = [
       {id:1, name:"ვარდების თაიგული", price:40, cat:"flowers", emoji:"🌹"},
       {id:2, name:"სუკულენტების კომპოზიცია", price:35, cat:"succulents", emoji:"🪴"},
@@ -175,15 +174,13 @@
       {id:8, name:"ბროში – პატარა ყვავილი", price:19, cat:"jewelry", emoji:"🌼"}
     ];
 
-    // ======= State =======
     const state = {
       products: [...CATALOG],
-      cart: JSON.parse(localStorage.getItem('sofio_cart')||'{}'), // {id:qty}
+      cart: JSON.parse(localStorage.getItem('sofio_cart')||'{}'),
       query: '',
       category: 'all'
     };
 
-    // ======= Helpers =======
     const $ = (sel)=>document.querySelector(sel);
     const fmt = (n)=> new Intl.NumberFormat('ka-GE',{maximumFractionDigits:0}).format(n)+" ₾";
 
@@ -274,31 +271,28 @@
       document.getElementById('checkout').scrollIntoView({behavior:'smooth'});
     }
 
-    // ======= Share order via WhatsApp / Email =======
     function orderText(){
       const {lines,total}=cartLines();
       const name=$('#f_name').value||''; const phone=$('#f_phone').value||''; const addr=$('#f_addr').value||''; const note=$('#f_note').value||'';
       const items=lines.map(l=>`• ${l.name} × ${l.qty} = ${l.sum}₾`).join('\n');
-      return🛍️ შეკვეთა\nსახელი: ${name}\nტელ: ${phone}\nმისამართი: ${addr}\n\nთვისებები:\n${items}\nჯამი: ${total}₾\nშენიშვნა: ${note}`;
+      return `🛍️ შეკვეთა\nსახელი: ${name}\nტელ: ${phone}\nმისამართი: ${addr}\n\nთვისებები:\n${items}\nჯამი: ${total}₾\nშენიშვნა: ${note}`;
     }
 
-    // შეცვალე YOUR_PHONE_GE ქართულ ნომრად "9955XXXXXXX" ფორმატში
     const WHATSAPP_NUMBER = '9955XXXXXXX';
-    const EMAIL_TO = 'orders@example.com'; // შეცვალე შენი მეილით
+    const EMAIL_TO = 'orders@example.com';
 
     function sendWA(){
       const txt = encodeURIComponent(orderText());
-      const url = https://wa.me/${WHATSAPP_NUMBER}?text=${txt};
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${txt}`;
       window.open(url,'_blank');
     }
 
     function sendEmail(){
       const subject=encodeURIComponent('ნატიფი შეკვეთა — Sofio Store');
       const body=encodeURIComponent(orderText());
-      window.location.href = mailto:${EMAIL_TO}?subject=${subject}&body=${body};
+      window.location.href = `mailto:${EMAIL_TO}?subject=${subject}&body=${body}`;
     }
 
-    // ======= Events =======
     document.addEventListener('DOMContentLoaded',()=>{
       $('#y').textContent = new Date().getFullYear();
       renderProducts();
@@ -316,13 +310,4 @@
       $('#sendEmail').addEventListener('click',sendEmail);
     });
   </script>
-</body>
-
-</html>
-
-
-
-
-
-
-
+</body
