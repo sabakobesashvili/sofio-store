@@ -55,6 +55,8 @@
   </style>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stripe JS -->
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
   <header>
@@ -98,7 +100,7 @@
 
     <section id="checkout" class="checkout" style="margin-top:16px">
       <h2>შეკვეთის გაფორმება</h2>
-      <p class="small">შეავსე ველები და დააჭირე „Facebook-ზე გაგზავნა“ ან „Email-ით“.</p>
+      <p class="small">შეავსე ველები და დააჭირე „Facebook-ზე გაგზავნა“, „Email-ით“ ან „გადახდა ბარათით“.</p>
       <div class="grid" style="grid-template-columns:repeat(12,1fr);gap:12px">
         <div style="grid-column:span 6">
           <label>სახელი და გვარი
@@ -127,6 +129,8 @@
           <i class="fa-brands fa-facebook"></i> Facebook-ზე გაგზავნა
         </a>
         <button class="btn ghost" id="sendEmail">გაგზავნა Email-ით</button>
+        <!-- Stripe გადახდა -->
+        <button class="btn primary" id="payCard"><i class="fa-solid fa-credit-card"></i> გადახდა ბარათით</button>
       </div>
     </section>
 
@@ -224,6 +228,9 @@
       const body=encodeURIComponent("შეკვეთის დეტალები...");
       window.location.href=`mailto:orders@example.com?subject=${subject}&body=${body}`;
     }
+
+    // Stripe გადახდა
+    const stripe = Stripe("შენი_Publishable_Key"); // ჩასვი შენი Stripe Publishable Key
     document.addEventListener('DOMContentLoaded',()=>{
       $('#y').textContent=new Date().getFullYear();
       renderProducts();renderCart();
@@ -235,6 +242,19 @@
       $('#closeCartBtn').addEventListener('click',()=>openCart(false));
       $('#goCheckout').addEventListener('click',goCheckout);
       $('#sendEmail').addEventListener('click',sendEmail);
+
+      // ბარათით გადახდა
+      $('#payCard').addEventListener('click',()=>{
+        stripe.redirectToCheckout({
+          lineItems: [{
+            price: "price_XXXX", // აქ ჩასვი შენი Stripe Price ID
+            quantity: 1,
+          }],
+          mode: "payment",
+          successUrl: window.location.origin + "/success.html",
+          cancelUrl: window.location.origin + "/cancel.html",
+        });
+      });
     });
   </script>
 </body>
